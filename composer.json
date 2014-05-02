@@ -1,0 +1,25 @@
+{
+    "name": "MisumiRize/whois-php",
+    "description": "whois",
+    "authors": [
+        {
+            "name": "Rize MISUMI",
+            "email": "r@ayase-e.li"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Lethe\\Whois\\": "src" }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/MisumiRize/strip-json-comments-php"
+        }
+    ],
+    "require": {
+        "misumirize/strip-json-comments-php" : "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
