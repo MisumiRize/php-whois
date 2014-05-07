@@ -7,11 +7,11 @@ use Lethe\Whois\Server\SocketHandler;
 
 class Base {
 
-    private $type;
-    private $allocation;
-    private $host;
-    private $options;
-    private $buffer = [];
+    protected $type;
+    protected $allocation;
+    protected $host;
+    protected $options;
+    protected $buffer = [];
 
     const DEFAULT_WHOIS_PORT = 43;
 
@@ -23,19 +23,39 @@ class Base {
         $this->options = $options;
     }
 
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function getAllocation()
+    {
+        return $this->allocation;
+    }
+
     public function getHost()
     {
         return $this->host;
     }
 
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
     public function lookup($domain)
     {
-        $response = $this->querySocket($domain, $this->host);
-        $this->appendBuffer($response, $this->host);
+        $this->request($domain);
         return new Record($this, $this->buffer);
     }
 
-    private function querySocket($query, $host, $port = null)
+    protected function request($domain)
+    {
+        $response = $this->querySocket($domain, $this->host);
+        $this->appendBuffer($response, $this->host);
+    }
+
+    protected function querySocket($query, $host, $port = null)
     {
         $args = [];
         $args[] = $host;
@@ -44,7 +64,7 @@ class Base {
         return $handler->execute($query, $args);
     }
 
-    private function appendBuffer($body, $host)
+    protected function appendBuffer($body, $host)
     {
         $this->buffer[] = new Record\Part(['body' => $body, 'host' => $host]);
     }
